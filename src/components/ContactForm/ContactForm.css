@@ -1,0 +1,38 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px 20px 24px;
+  margin-bottom: 40px;
+  border: 2px solid #000000;
+}
+
+.form-label{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+  font-size: 26px;
+  margin-bottom: 26px;
+}
+
+.form-input{
+  padding: 5px 10px;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+.form-button {
+  max-width: 150px;
+  font-size: 15px;
+  padding: 5px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: rgb(155, 207, 245);
+}
+
+.form-button:hover {
+  background-color: rgb(94, 186, 252);
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
