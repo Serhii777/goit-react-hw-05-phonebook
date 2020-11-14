@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
+// import { CSSTransition, TransitionGroup, SwitchTransition} from "react-transition-group";
+import styles from "./ContactList/ContactList.module.css";
 
 const Filter = ({ value, onChangeFilter }) => {
   return (
-    <div className="filter-wrapper">
-      <label className="filter-label">
+    <div className={styles.filterWrapper}>
+      <label className={styles.filterLabel}>
         Find contacts by name
         <input
           type="text"
-          className="filter-input"
+          className={styles.filterInput}
           value={value}
           onChange={(e) => onChangeFilter(e.target.value)}
         />

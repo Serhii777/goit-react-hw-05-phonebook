@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styles from "./ContactList.module.css";
 
 const ContactListItem = ({ name, number, onRemove }) => {
   return (
-    <li className="contact-item">
-      <p className="contact-name">{name}:</p>
-      <span className="contact-number">{number}</span>
-      <button
-        type="button"
-        className="contact-button"
-        onClick={onRemove}
-      >
-        Delete
-      </button>
-    </li>
+        <li className={styles.contactItem}>
+        <p className={styles.contactName}>{name}:</p>
+        <span className={styles.contactNumber}>{number}</span>
+        <button
+          type="button"
+          className={styles.contactButton}
+          onClick={onRemove}>
+          &#10006;
+        </button>
+      </li>
   );
 };
 
@@ -24,7 +24,7 @@ ContactListItem.propTypes = {
 
 ContactListItem.defaultProps = {
   name: "",
-  number: '',
+  number: "",
 };
 
 export default ContactListItem;

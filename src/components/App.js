@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import {
+  CSSTransition,
+  // TransitionGroup,
+  // SwitchTransition,
+} from "react-transition-group";
 import { v4 as uuidv4 } from "uuid";
 import Container from "./Container";
 import ContactForm from "./ContactForm";
 import ContactList from "./ContactList";
 import Filter from "./Filter";
+import Alert from "./Alert/Alert";
+import styles from "./Container/Container.module.css";
 
 class App extends Component {
   static propTypes = {
@@ -31,20 +38,21 @@ class App extends Component {
     filter: "",
     name: "",
     number: "",
+    newContactUnique: true,
+    // newContactUnique: false
   };
 
   componentDidMount() {
     const persistedNumber = localStorage.getItem("number");
 
-    if(persistedNumber){
+    if (persistedNumber) {
       this.setState({
-        contacts: JSON.parse(persistedNumber)
-      })
+        contacts: JSON.parse(persistedNumber),
+      });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-
     if (prevState.contacts !== this.state.contacts) {
       localStorage.setItem("number", JSON.stringify(this.state.contacts));
     }
@@ -57,7 +65,7 @@ class App extends Component {
   getVisibleContacts = () => {
     const { contacts, filter } = this.state;
 
-    return contacts.filter(({name}) =>
+    return contacts.filter(({ name }) =>
       name.toLowerCase().includes(filter.toLowerCase())
     );
   };
@@ -71,16 +79,20 @@ class App extends Component {
 
     const isNewContactUnique = () => {
       const { contacts } = this.state;
-      return contacts.find(({name}) => name === newContact.name);
+      return contacts.find(({ name }) => name === newContact.name);
     };
 
     let newContactUnique = isNewContactUnique();
-
+    console.log(newContactUnique);
+    
     this.setState((prevState) => {
       return !newContactUnique
-        ? { contacts: [...prevState.contacts, newContact] }
-        : window.alert(`${newContact.name} is already in contacts.`);
+      ? { contacts: [...prevState.contacts, newContact] }
+      : // : window.alert(`${newContact.name} is already in contacts.`);
+      {newContactUnique};
     });
+    console.log(newContact.name);
+    console.log(this.state.newContactUnique);
   };
 
   checkExistName = (text) => {
@@ -90,31 +102,53 @@ class App extends Component {
   removeTask = (contactId) => {
     this.setState((prevState) => {
       return {
-        contacts: prevState.contacts.filter(
-          ({id}) => id !== contactId
-        ),
+        contacts: prevState.contacts.filter(({ id }) => id !== contactId),
       };
     });
   };
 
   render() {
-    const { filter } = this.state;
+    const { filter, newContactUnique } = this.state;
 
     const visibleContacts = this.getVisibleContacts();
 
     return (
       <Container>
-        <h1 className="container-title">Phonebook</h1>
+        <CSSTransition
+          in={true}
+          appear
+          timeout={500}
+          className={styles.title}
+          unmountOnExit>
+          <h1>Phonebook</h1>
+        </CSSTransition>
+
         <ContactForm onAddContact={this.addContact} />
 
-        <h2 className="container-title">Contacts</h2>
-          <Filter value={filter} onChangeFilter={this.changeFilter} />
-        {visibleContacts.length > 0 && (
+        <CSSTransition
+          in={true}
+          appear
+          timeout={500}
+          className={styles.title}
+          unmountOnExit>
+          <Alert newContactUnique={newContactUnique.name} />
+        </CSSTransition>
+
+        <h2 className={styles.containerTitle}>Contacts</h2>
+        <Filter value={filter} onChangeFilter={this.changeFilter} />
+
+        <CSSTransition
+          in={visibleContacts.length > 0}
+          timeout={250}
+          classNames={styles.contactListFade}
+          unmountOnExit>
+          {/* {visibleContacts.length > 0 && ( */}
           <ContactList
             contacts={visibleContacts}
             onRemoveTask={this.removeTask}
           />
-        )}
+          {/* )} */}
+        </CSSTransition>
       </Container>
     );
   }
