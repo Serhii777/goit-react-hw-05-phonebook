@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import { CSSTransition, TransitionGroup, SwitchTransition} from "react-transition-group";
 import styles from "./ContactList/ContactList.module.css";
 
 const Filter = ({ value, onChangeFilter }) => {

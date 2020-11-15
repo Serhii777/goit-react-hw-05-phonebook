@@ -1,15 +1,14 @@
 import React from "react";
-// import moduleName from './Alert.module.css'
+import stylesAlert from "./Alert.module.css";
 
-import "./Alert.css";
-
-const Alert = ({ newContactUnique }) => {
-  console.log(newContactUnique);
-  //   console.log(newContactUnique.name);
+const Alert = ({ newContactUnique, timeout }) => {
+  setTimeout(timeout, 2500);
 
   return (
-    <div>
-        <p>This {newContactUnique} is already in contacts.</p>
+    <div className={stylesAlert.alertWrapper}>
+      <p className={stylesAlert.alertText}>
+        This {newContactUnique} is already exist!
+      </p>
     </div>
   );
 };

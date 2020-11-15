@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  CSSTransition,
-  // TransitionGroup,
-  // SwitchTransition,
-} from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 import { v4 as uuidv4 } from "uuid";
 import Container from "./Container";
+import MainTitle from "./MainTitle/MainTitle";
+import Filter from "./Filter";
 import ContactForm from "./ContactForm";
 import ContactList from "./ContactList";
-import Filter from "./Filter";
 import Alert from "./Alert/Alert";
+
 import styles from "./Container/Container.module.css";
+
+import fadeAlert from "./Animation/FadeAlert.module.css";
+import fadeItems from "./Animation/FadeItems.module.css";
 
 class App extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class App extends Component {
     filter: PropTypes.string,
     name: PropTypes.string,
     number: PropTypes.string,
+    newContactUnique: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -38,8 +40,7 @@ class App extends Component {
     filter: "",
     name: "",
     number: "",
-    newContactUnique: true,
-    // newContactUnique: false
+    newContactUnique: false,
   };
 
   componentDidMount() {
@@ -83,20 +84,12 @@ class App extends Component {
     };
 
     let newContactUnique = isNewContactUnique();
-    console.log(newContactUnique);
-    
+
     this.setState((prevState) => {
       return !newContactUnique
-      ? { contacts: [...prevState.contacts, newContact] }
-      : // : window.alert(`${newContact.name} is already in contacts.`);
-      {newContactUnique};
+        ? { contacts: [...prevState.contacts, newContact] }
+        : { newContactUnique: newContactUnique };
     });
-    console.log(newContact.name);
-    console.log(this.state.newContactUnique);
-  };
-
-  checkExistName = (text) => {
-    console.log(text);
   };
 
   removeTask = (contactId) => {
@@ -107,6 +100,9 @@ class App extends Component {
     });
   };
 
+  resetNewContactUnique = () =>
+    setTimeout(this.setState({ newContactUnique: false }), 2000);
+
   render() {
     const { filter, newContactUnique } = this.state;
 
@@ -114,40 +110,35 @@ class App extends Component {
 
     return (
       <Container>
-        <CSSTransition
-          in={true}
-          appear
-          timeout={500}
-          className={styles.title}
-          unmountOnExit>
-          <h1>Phonebook</h1>
-        </CSSTransition>
+        <MainTitle />
 
         <ContactForm onAddContact={this.addContact} />
 
         <CSSTransition
-          in={true}
+          in={newContactUnique}
           appear
-          timeout={500}
-          className={styles.title}
+          timeout={300}
+          classNames={fadeAlert}
           unmountOnExit>
-          <Alert newContactUnique={newContactUnique.name} />
+          <Alert
+            newContactUnique={newContactUnique.name}
+            timeout={this.resetNewContactUnique}
+          />
         </CSSTransition>
 
         <h2 className={styles.containerTitle}>Contacts</h2>
+
         <Filter value={filter} onChangeFilter={this.changeFilter} />
 
         <CSSTransition
-          in={visibleContacts.length > 0}
-          timeout={250}
-          classNames={styles.contactListFade}
+          in={visibleContacts.length >= 1}
+          timeout={300}
+          classNames={fadeItems}
           unmountOnExit>
-          {/* {visibleContacts.length > 0 && ( */}
           <ContactList
             contacts={visibleContacts}
             onRemoveTask={this.removeTask}
           />
-          {/* )} */}
         </CSSTransition>
       </Container>
     );

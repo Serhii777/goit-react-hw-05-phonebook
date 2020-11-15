@@ -4,6 +4,7 @@
   justify-content: left;
   text-align: left;
   margin: 0px;
+  padding: 0px;
   line-height: 1.5;
 }
 
@@ -67,7 +68,7 @@
 }
 
 .filterInput {
-  font-size: 16px;
+  font-size: 20px;
   padding: 10px 15px;
   margin-top: 6px;
   border: 2px solid #69b5f7;
@@ -76,38 +77,4 @@
 
 .filterInput:focus {
   box-shadow: 0px 0px 3px 4px #69b5f7;
-}
-
-.fadeGroup {
-}
-
-.fadeItem {
-}
-
-.fadeItem-enter {
-  opacity: 0;
-  transform: scale(0.1);
-  /* transform: translateX(100%); */
-  transition: all 1000ms linear;
-}
-
-.fadeItem-enter-active {
-  opacity: 1;
-  transform: scale(1);
-  /* transform: translateX(0); */
-  transition: all 1000ms linear;
-}
-
-.fadeItem-exit {
-  opacity: 1;
-  transform: scale(1);
-  /* transform: translateX(0); */
-  transition: all 1000ms linear;
-}
-
-.fadeItem-exit-active {
-  opacity: 0;
-  transform: scale(0.1);
-  /* transform: translateX(100%); */
-  transition: all 1000ms linear;
 }
